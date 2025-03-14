@@ -1,0 +1,29 @@
+version: '3'
+services:
+  postgres_db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: hw_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 567234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres_db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+volumes:
+  postgres_data:
